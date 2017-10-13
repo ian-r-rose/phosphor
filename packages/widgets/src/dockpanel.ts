@@ -775,32 +775,36 @@ class DockPanel extends Widget {
       bottom = rect.height - 28;
       break;
     case 'widget-top':
-      top = target!.top;
+      top = target!.top - 5;
+      // top = target!.top;      
       left = target!.left;
       right = target!.right;
-      bottom = target!.bottom + target!.height / 2;
+      bottom = target!.bottom + target!.height;      
+      // bottom = target!.bottom + target!.height / 2;
       break;
     case 'widget-left':
       top = target!.top;
-      // left = target!.left - 5;
-      // right = target!.right + target!.width;
-      left = target!.left;
-      right = target!.right + target!.width / 2;
+      left = target!.left - 5;
+      // left = target!.left;
+      right = target!.right + target!.width;
+      // right = target!.right + target!.width / 2;
       bottom = target!.bottom;
       break;
     case 'widget-right':
       top = target!.top;
-      // left = target!.left + target!.width;
-      // right = target!.right - 5;
-      left = target!.left + target!.width / 2;
-      right = target!.right;
+      left = target!.left + target!.width;
+      // left = target!.left + target!.width / 2;
+      right = target!.right - 5;
+      // right = target!.right;
       bottom = target!.bottom;
       break;
     case 'widget-bottom':
-      top = target!.top + target!.height / 2;
+      top = target!.top + target!.height;
+      // top = target!.top + target!.height / 2;
       left = target!.left;
       right = target!.right;
-      bottom = target!.bottom;
+      bottom = target!.bottom - 5;
+      // bottom = target!.bottom;      
       break;
     default:
       throw 'unreachable';
