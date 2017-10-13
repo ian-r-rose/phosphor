@@ -9,7 +9,7 @@
 
 .p-DockPanel-overlay {
   background: #2196F3;
-  opacity: 0.4;
+  opacity: 0.8;
   border: 2px solid #2196F3;
   transition-property: top, left, right, bottom;
   transition-duration: 150ms;

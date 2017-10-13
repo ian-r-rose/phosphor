@@ -736,7 +736,7 @@ class DockPanel extends Widget {
     let rect = this.node.getBoundingClientRect();
 
     // Compute the overlay geometry based on the dock zone.
-    console.log(target!.top, target!.right, target!.bottom, target!.left, target!.height, target!.width);
+    // console.log(target!.top, target!.right, target!.bottom, target!.left, target!.height, target!.width);
     switch (zone) {
     case 'root-all':
       top = box.paddingTop;
@@ -772,7 +772,7 @@ class DockPanel extends Widget {
       top = target!.top;
       left = target!.left;
       right = target!.right;
-      bottom = rect.height - 28;
+      bottom = target!.bottom + target!.height - 28;
       break;
     case 'widget-top':
       top = target!.top - 5;
@@ -810,10 +810,9 @@ class DockPanel extends Widget {
       throw 'unreachable';
     }
 
-    console.log(top, right, bottom, left);
     // Show the overlay with the computed geometry.
     this.overlay.show({ top, left, right, bottom });
-
+    console.log(zone, { top, left, right, bottom })
     // Finally, return the computed drop zone.
     return zone;
   }
