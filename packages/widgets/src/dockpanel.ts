@@ -736,6 +736,7 @@ class DockPanel extends Widget {
     let rect = this.node.getBoundingClientRect();
 
     // Compute the overlay geometry based on the dock zone.
+    console.log(target!.top, target!.right, target!.bottom, target!.left, target!.height, target!.width);
     switch (zone) {
     case 'root-all':
       top = box.paddingTop;
@@ -744,34 +745,34 @@ class DockPanel extends Widget {
       bottom = box.paddingBottom;
       break;
     case 'root-top':
-      top = box.paddingTop;
-      left = box.paddingLeft;
-      right = box.paddingRight;
-      bottom = rect.height * Private.GOLDEN_RATIO;
+      top = 0;
+      left = 0;
+      right = 0;
+      bottom = rect.height - 10;
       break;
     case 'root-left':
-      top = box.paddingTop;
-      left = box.paddingLeft;
-      right = rect.width * Private.GOLDEN_RATIO;
-      bottom = box.paddingBottom;
+      top = 0;
+      left = 0;
+      right = rect.width - 10;
+      bottom = 0;
       break;
     case 'root-right':
-      top = box.paddingTop;
-      left = rect.width * Private.GOLDEN_RATIO;
-      right = box.paddingRight;
-      bottom = box.paddingBottom;
+      top = 0;
+      left = rect.width - 10;
+      right = 0;
+      bottom = 0;
       break;
     case 'root-bottom':
-      top = rect.height * Private.GOLDEN_RATIO;
-      left = box.paddingLeft;
-      right = box.paddingRight;
-      bottom = box.paddingBottom;
+      top = rect.height - 10;
+      left = 0;
+      right = 0;
+      bottom = 0;
       break;
     case 'widget-all':
       top = target!.top;
       left = target!.left;
       right = target!.right;
-      bottom = target!.bottom;
+      bottom = rect.height - 28;
       break;
     case 'widget-top':
       top = target!.top;
@@ -781,12 +782,16 @@ class DockPanel extends Widget {
       break;
     case 'widget-left':
       top = target!.top;
+      // left = target!.left - 5;
+      // right = target!.right + target!.width;
       left = target!.left;
       right = target!.right + target!.width / 2;
       bottom = target!.bottom;
       break;
     case 'widget-right':
       top = target!.top;
+      // left = target!.left + target!.width;
+      // right = target!.right - 5;
       left = target!.left + target!.width / 2;
       right = target!.right;
       bottom = target!.bottom;
@@ -801,6 +806,7 @@ class DockPanel extends Widget {
       throw 'unreachable';
     }
 
+    console.log(top, right, bottom, left);
     // Show the overlay with the computed geometry.
     this.overlay.show({ top, left, right, bottom });
 
@@ -1232,7 +1238,7 @@ namespace Private {
    * The size of the edge dock zone for the root panel, in pixels.
    */
   export
-  const EDGE_SIZE = 40;
+  const EDGE_SIZE = 10;
 
   /**
    * A singleton `'layout-modified'` conflatable message.
@@ -1448,6 +1454,11 @@ namespace Private {
     let at = target.y - target.top + 1;
     let ar = target.left + target.width - target.x;
     let ab = target.top + target.height - target.y;
+
+    // Tab bar drop zone
+    if (at < 50) {
+      return { zone: 'widget-all', target };      
+    }
 
     // Get the X and Y edge sizes for the area.
     let rx = Math.round(target.width / 3);
