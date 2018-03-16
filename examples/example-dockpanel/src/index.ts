@@ -344,7 +344,7 @@ function main(): void {
   // let g2 = new ContentWidget('Green');
   // let y2 = new ContentWidget('Yellow');
 
-  let dock = new DockPanel({ spacing: 5});
+  let dock = new DockPanel();
   dock.addWidget(r1);
   dock.addWidget(b1, { mode: 'split-right', ref: r1 });
   dock.addWidget(y1, { mode: 'split-bottom', ref: b1 });
