@@ -8,10 +8,6 @@
 import 'es6-promise/auto';  // polyfill Promise on IE
 
 import {
-  Message
-} from '@phosphor/messaging';
-
-import {
   BoxPanel, DockPanel, Widget
 } from '@phosphor/widgets';
 
@@ -37,15 +33,6 @@ class ContentWidget extends Widget {
     this.title.caption = `Long description for: ${name}`;
   }
 
-  get inputNode(): HTMLInputElement {
-    return this.node.getElementsByTagName('input')[0] as HTMLInputElement;
-  }
-
-  protected onActivateRequest(msg: Message): void {
-    if (this.isAttached) {
-      this.inputNode.focus();
-    }
-  }
 }
 
 /**
@@ -116,15 +103,15 @@ function main(): void {
   let spacing = parseInt(getQueryVariable('spacing') || '5');
   let allowCenterTarget = getQueryVariable('allowCenterTarget') === 'true' || false;
   let allowTabTarget = getQueryVariable('allowTabTarget') === 'true' || false;
-  let overlay = getQueryVariable('overlayStyle');
-  let overlayStyle: 'line' | 'area' = overlay === 'line' ? 'line' : 'area';
+  // let overlay = getQueryVariable('overlayStyle');
+  // let overlayStyle: 'line' | 'area' = overlay === 'line' ? 'line' : 'area';
   let layout = getQueryVariable('layout') || '1';
 
   let dock = new DockPanel({
     spacing,
     allowCenterTarget,  // Whether to include the center drop zone
     allowTabTarget,     // Whether to include the tab bar drop zone
-    overlayStyle     // area or line
+    overlayStyle: 'line'    // area or line
   });
 
   switch (layout) {

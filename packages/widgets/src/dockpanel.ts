@@ -827,6 +827,7 @@ class DockPanel extends Widget {
       default:
         throw 'unreachable';
       }
+      break;
     case 'area':
       // Compute the overlay geometry based on the dock zone.
       // console.log(target!.top, target!.right, target!.bottom, target!.left, target!.height, target!.width);
@@ -900,6 +901,7 @@ class DockPanel extends Widget {
       default:
         throw 'unreachable';
       }
+      break;
     }
 
     // Show the overlay with the computed geometry.
