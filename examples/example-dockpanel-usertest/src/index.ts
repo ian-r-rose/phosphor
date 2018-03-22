@@ -70,6 +70,42 @@ function createLayoutOne(dock: DockPanel): void {
   let purple = new ContentWidget('Purple');
 
   dock.addWidget(red);
+  dock.addWidget(green, { mode: 'tab-after', ref: red });
+  dock.addWidget(blue, { mode: 'tab-after', ref: green });
+  dock.addWidget(purple, { mode: 'tab-after', ref: blue });
+}
+
+function createLayoutTwo(dock: DockPanel): void {
+  let red = new ContentWidget('Red');
+  let green = new ContentWidget('Green');
+  let blue = new ContentWidget('Blue');
+  let purple = new ContentWidget('Purple');
+
+  dock.addWidget(red);
+  dock.addWidget(green, { mode: 'tab-after', ref: red });
+  dock.addWidget(blue, { mode: 'split-bottom', ref: red});
+  dock.addWidget(purple, { mode: 'tab-after', ref: blue });
+}
+
+function createLayoutThree(dock: DockPanel): void {
+  let red = new ContentWidget('Red');
+  let green = new ContentWidget('Green');
+  let blue = new ContentWidget('Blue');
+  let purple = new ContentWidget('Purple');
+
+  dock.addWidget(red);
+  dock.addWidget(green, { mode: 'tab-after', ref: red });
+  dock.addWidget(purple, { mode: 'split-bottom', ref: red });
+  dock.addWidget(blue, { mode: 'split-right', ref: red});
+}
+
+function createLayoutFour(dock: DockPanel): void {
+  let red = new ContentWidget('Red');
+  let green = new ContentWidget('Green');
+  let blue = new ContentWidget('Blue');
+  let purple = new ContentWidget('Purple');
+
+  dock.addWidget(red);
   dock.addWidget(green, { mode: 'split-bottom', ref: red });
   dock.addWidget(purple, { mode: 'split-bottom', ref: green });
   dock.addWidget(blue, { mode: 'split-right', ref: green});
@@ -78,10 +114,11 @@ function createLayoutOne(dock: DockPanel): void {
 function main(): void {
 
   let spacing = parseInt(getQueryVariable('spacing') || '5');
-  let allowCenterTarget = getQueryVariable('allowCenterTarget') === '1' || false;
-  let allowTabTarget = getQueryVariable('allowTabTarget') === '1' || false;
+  let allowCenterTarget = getQueryVariable('allowCenterTarget') === 'true' || false;
+  let allowTabTarget = getQueryVariable('allowTabTarget') === 'true' || false;
   let overlay = getQueryVariable('overlayStyle');
   let overlayStyle: 'line' | 'area' = overlay === 'line' ? 'line' : 'area';
+  let layout = getQueryVariable('layout') || '1';
 
   let dock = new DockPanel({
     spacing,
@@ -90,8 +127,23 @@ function main(): void {
     overlayStyle     // area or line
   });
 
-
-  createLayoutOne(dock);
+  switch (layout) {
+    case '1':
+      createLayoutOne(dock);
+      break;
+    case '2':
+      createLayoutTwo(dock);
+      break;
+    case '3':
+      createLayoutThree(dock);
+      break;
+    case '4':
+      createLayoutFour(dock);
+      break;
+    default:
+      createLayoutOne(dock);
+      break;
+  }
 
   BoxPanel.setStretch(dock, 1);
   let main = new BoxPanel({ direction: 'left-to-right', spacing: 0 });
