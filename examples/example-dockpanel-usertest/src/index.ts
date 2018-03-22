@@ -48,37 +48,52 @@ class ContentWidget extends Widget {
   }
 }
 
+/**
+ * Utility function to get a parse the query string.
+ */
+function getQueryVariable(variable: string): string | undefined {
+  const query = window.location.search.substring(1);
+  const vars = query.split('&');
+  for (let i = 0; i < vars.length; i++) {
+    const pair = vars[i].split('=');
+      if (decodeURIComponent(pair[0]) == variable) {
+        return decodeURIComponent(pair[1]);
+      }
+  }
+  return undefined;
+}
+
+function createLayoutOne(dock: DockPanel): void {
+  let red = new ContentWidget('Red');
+  let green = new ContentWidget('Green');
+  let blue = new ContentWidget('Blue');
+  let purple = new ContentWidget('Purple');
+
+  dock.addWidget(red);
+  dock.addWidget(green, { mode: 'split-bottom', ref: red });
+  dock.addWidget(purple, { mode: 'split-bottom', ref: green });
+  dock.addWidget(blue, { mode: 'split-right', ref: green});
+}
 
 function main(): void {
 
-  let r1 = new ContentWidget('Red');
-  let b1 = new ContentWidget('Blue');
-  let g1 = new ContentWidget('Green');
-  let y1 = new ContentWidget('Yellow');
-
-  let r2 = new ContentWidget('Red');
-  let b2 = new ContentWidget('Blue');
-  // let g2 = new ContentWidget('Green');
-  // let y2 = new ContentWidget('Yellow');
+  let spacing = parseInt(getQueryVariable('spacing') || '5');
+  let allowCenterTarget = getQueryVariable('allowCenterTarget') === '1' || false;
+  let allowTabTarget = getQueryVariable('allowTabTarget') === '1' || false;
+  let overlay = getQueryVariable('overlayStyle');
+  let overlayStyle: 'line' | 'area' = overlay === 'line' ? 'line' : 'area';
 
   let dock = new DockPanel({
-    spacing: 5,
-    allowCenterTarget: true,  // Include the center drop zone
-    allowTabTarget: true,     // Include the tab bar drop zone
-    overlayStyle: 'area'      // area or line
+    spacing,
+    allowCenterTarget,  // Whether to include the center drop zone
+    allowTabTarget,     // Whether to include the tab bar drop zone
+    overlayStyle     // area or line
   });
 
-  // Customize this code to configure the starting layout of the user test.
-  dock.addWidget(r1);
-  dock.addWidget(b1, { mode: 'split-right', ref: r1 });
-  dock.addWidget(y1, { mode: 'split-bottom', ref: b1 });
-  dock.addWidget(g1, { mode: 'split-left', ref: y1 });
-  dock.addWidget(r2, { ref: b1 });
-  dock.addWidget(b2, { mode: 'split-right', ref: y1 });
-  dock.id = 'dock';
+
+  createLayoutOne(dock);
 
   BoxPanel.setStretch(dock, 1);
-
   let main = new BoxPanel({ direction: 'left-to-right', spacing: 0 });
   main.id = 'main';
   main.addWidget(dock);
