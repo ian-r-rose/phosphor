@@ -26332,14 +26332,14 @@ function main() {
     var spacing = parseInt(getQueryVariable('spacing') || '5');
     var allowCenterTarget = getQueryVariable('allowCenterTarget') === 'true' || false;
     var allowTabTarget = getQueryVariable('allowTabTarget') === 'true' || false;
-    // let overlay = getQueryVariable('overlayStyle');
-    // let overlayStyle: 'line' | 'area' = overlay === 'line' ? 'line' : 'area';
+    var overlay = getQueryVariable('overlayStyle');
+    var overlayStyle = overlay === 'line' ? 'line' : 'area';
     var layout = getQueryVariable('layout') || '1';
     var dock = new widgets_1.DockPanel({
         spacing: spacing,
         allowCenterTarget: allowCenterTarget,
         allowTabTarget: allowTabTarget,
-        overlayStyle: 'line' // area or line
+        overlayStyle: overlayStyle,
     });
     switch (layout) {
         case '1':
