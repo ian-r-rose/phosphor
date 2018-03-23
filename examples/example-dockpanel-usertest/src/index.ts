@@ -103,15 +103,15 @@ function main(): void {
   let spacing = parseInt(getQueryVariable('spacing') || '5');
   let allowCenterTarget = getQueryVariable('allowCenterTarget') === 'true' || false;
   let allowTabTarget = getQueryVariable('allowTabTarget') === 'true' || false;
-  // let overlay = getQueryVariable('overlayStyle');
-  // let overlayStyle: 'line' | 'area' = overlay === 'line' ? 'line' : 'area';
+  let overlay = getQueryVariable('overlayStyle');
+  let overlayStyle: 'line' | 'area' = overlay === 'line' ? 'line' : 'area';
   let layout = getQueryVariable('layout') || '1';
 
   let dock = new DockPanel({
     spacing,
     allowCenterTarget,  // Whether to include the center drop zone
     allowTabTarget,     // Whether to include the tab bar drop zone
-    overlayStyle: 'line'    // area or line
+    overlayStyle,    // area or line
   });
 
   switch (layout) {
