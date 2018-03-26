@@ -33,24 +33,24 @@
 
 
 .red > div {
-  background: #F44336;
+  background: #F2D7D5;
 }
 
 
 .yellow > div {
-  background: #FFEB3B;
+  background: #FCF3CF;
 }
 
 
 .green > div {
-  background: #4CAF50;
+  background: #D4EFDF;
 }
 
 
 .blue > div {
-  background: #00BCD4;
+  background: #D4E6F1;
 }
 
 .purple > div {
-  background: #9932CC;
+  background: #E8DAEF;
 }
