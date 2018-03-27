@@ -802,17 +802,10 @@ class DockPanel extends Widget {
         direction = 'none';
         break;
       case 'widget-all':
-        if (!this._allowTabTarget) {
-          top = target!.top;
-          left = target!.left;
-          right = target!.right;
-          bottom = target!.bottom;
-        } else {
-          top = target!.top;
-          left = target!.left;
-          right = target!.right;
-          bottom = target!.bottom + target!.height - 28;
-        }
+        top = target!.top;
+        left = target!.left;
+        right = target!.right;
+        bottom = target!.bottom + target!.height - 28;
         direction = 'none';
         break;
       case 'widget-top':
