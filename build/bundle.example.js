@@ -43841,10 +43841,18 @@ var DockPanel = (function (_super) {
                         bottom = target.bottom + target.height - 28;
                         break;
                     case 'widget-all':
-                        top = target.top;
-                        left = target.left;
-                        right = target.right;
-                        bottom = target.bottom;
+                        if (!this._allowTabTarget) {
+                            top = target.top;
+                            left = target.left;
+                            right = target.right;
+                            bottom = target.bottom;
+                        }
+                        else {
+                            top = target.top;
+                            left = target.left;
+                            right = target.right;
+                            bottom = target.bottom + target.height - 28;
+                        }
                         break;
                     case 'widget-top':
                         top = target.top - spacing - extra;
@@ -43949,8 +43957,6 @@ var DockPanel = (function (_super) {
                 break;
         }
         // Show the overlay with the computed geometry.
-        console.log(target);
-        console.log({ top: top, left: left, right: right, bottom: bottom });
         this.overlay.show({ top: top, left: left, right: right, bottom: bottom });
         // Finally, return the computed drop zone.
         return zone;
