@@ -25,7 +25,7 @@
   width: 0px;
   height: 0px;
   position: absolute;
-  top: calc(50% - 8px);
+  top: calc(50% - 16px);
   left: 100%;
   z-index: 3;
   content: '';
@@ -38,7 +38,7 @@
   width: 0px;
   height: 0px;
   position: absolute;
-  top: calc(50% - 8px);
+  top: calc(50% - 16px);
   left: -33px;
   z-index: 3;
   content: '';
@@ -51,7 +51,7 @@
   width: 0px;
   height: 0px;
   position: absolute;
-  left: calc(50% - 8px);
+  left: calc(50% - 16px);
   top: -33px;
   z-index: 3;
   content: '';
@@ -65,7 +65,7 @@
   height: 0px;
   position: absolute;
   top: 100%;
-  left: calc(50% - 8px);
+  left: calc(50% - 16px);
   z-index: 3;
   content: '';
 }
