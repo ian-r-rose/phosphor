@@ -43800,6 +43800,7 @@ var DockPanel = (function (_super) {
         var rect = this.node.getBoundingClientRect();
         var spacing = this.layout.spacing;
         var extra = 6;
+        var direction = 'none';
         switch (this._overlayStyle) {
             case 'line':
                 // Compute the overlay geometry based on the dock zone.
@@ -43815,68 +43816,70 @@ var DockPanel = (function (_super) {
                         left = 0;
                         right = 0;
                         bottom = rect.height - 2 * extra;
+                        direction = 'down';
                         break;
                     case 'root-left':
                         top = 0;
                         left = 0;
                         right = rect.width - 2 * extra;
                         bottom = 0;
+                        direction = 'right';
                         break;
                     case 'root-right':
                         top = 0;
                         left = rect.width - 2 * extra;
                         right = 0;
                         bottom = 0;
+                        direction = 'left';
                         break;
                     case 'root-bottom':
                         top = rect.height - 2 * extra;
                         left = 0;
                         right = 0;
                         bottom = 0;
+                        direction = 'up';
                         break;
                     case 'widget-tab':
                         top = target.top;
                         left = target.left;
                         right = target.right;
                         bottom = target.bottom + target.height - 28;
+                        direction = 'none';
                         break;
                     case 'widget-all':
-                        if (!this._allowTabTarget) {
-                            top = target.top;
-                            left = target.left;
-                            right = target.right;
-                            bottom = target.bottom;
-                        }
-                        else {
-                            top = target.top;
-                            left = target.left;
-                            right = target.right;
-                            bottom = target.bottom + target.height - 28;
-                        }
-                        break;
-                    case 'widget-top':
-                        top = target.top - spacing - extra;
+                        top = target.top;
                         left = target.left;
                         right = target.right;
-                        bottom = target.bottom + target.height - extra;
+                        bottom = target.bottom + target.height - 28;
+                        direction = 'none';
+                        break;
+                    case 'widget-top':
+                        top = target.top - spacing;
+                        left = target.left;
+                        right = target.right;
+                        bottom = target.bottom + target.height - 2 * extra;
+                        direction = 'down';
                         break;
                     case 'widget-left':
                         top = target.top;
-                        left = target.left - spacing - extra;
-                        right = target.right + target.width - extra;
+                        left = target.left - spacing;
+                        right = target.right + target.width - 2 * extra;
                         bottom = target.bottom;
+                        direction = 'right';
                         break;
                     case 'widget-right':
                         top = target.top;
-                        left = target.left + target.width - extra;
-                        right = target.right - spacing - extra;
+                        left = target.left + target.width - 2 * extra;
+                        right = target.right - spacing;
                         bottom = target.bottom;
+                        direction = 'left';
                         break;
                     case 'widget-bottom':
-                        top = target.top + target.height - extra;
+                        top = target.top + target.height - 2 * extra;
                         left = target.left;
                         right = target.right;
-                        bottom = target.bottom - spacing - extra;
+                        bottom = target.bottom - spacing;
+                        direction = 'up';
                         break;
                     default:
                         throw 'unreachable';
@@ -43937,7 +43940,7 @@ var DockPanel = (function (_super) {
                         top = target.top;
                         left = target.left;
                         right = target.right + target.width / 2;
-                        bottom = target.top + target.height;
+                        bottom = target.bottom;
                         break;
                     case 'widget-right':
                         top = target.top;
@@ -43957,7 +43960,7 @@ var DockPanel = (function (_super) {
                 break;
         }
         // Show the overlay with the computed geometry.
-        this.overlay.show({ top: top, left: left, right: right, bottom: bottom });
+        this.overlay.show({ top: top, left: left, right: right, bottom: bottom }, direction);
         // Finally, return the computed drop zone.
         return zone;
     };
@@ -44097,13 +44100,15 @@ exports.DockPanel = DockPanel;
          *
          * @param geo - The desired geometry for the overlay.
          */
-        Overlay.prototype.show = function (geo) {
+        Overlay.prototype.show = function (geo, direction) {
+            if (direction === void 0) { direction = 'none'; }
             // Update the position of the overlay.
             var style = this.node.style;
             style.top = geo.top + "px";
             style.left = geo.left + "px";
             style.right = geo.right + "px";
             style.bottom = geo.bottom + "px";
+            this.node.dataset['direction'] = direction;
             // Clear any pending hide timer.
             clearTimeout(this._timer);
             this._timer = -1;
@@ -44133,6 +44138,7 @@ exports.DockPanel = DockPanel;
                 clearTimeout(this._timer);
                 this._timer = -1;
                 this._hidden = true;
+                this.node.dataset['direction'] = 'none';
                 this.node.classList.add('p-mod-hidden');
                 return;
             }
@@ -44144,6 +44150,7 @@ exports.DockPanel = DockPanel;
             this._timer = setTimeout(function () {
                 _this._timer = -1;
                 _this._hidden = true;
+                _this.node.dataset['direction'] = 'none';
                 _this.node.classList.add('p-mod-hidden');
             }, delay);
         };
@@ -48046,7 +48053,7 @@ exports = module.exports = __webpack_require__(5)();
 
 
 // module
-exports.push([module.i, "/*-----------------------------------------------------------------------------\n| Copyright (c) 2014-2017, PhosphorJS Contributors\n|\n| Distributed under the terms of the BSD 3-Clause License.\n|\n| The full license is in the file LICENSE, distributed with this software.\n|----------------------------------------------------------------------------*/\n\n\n.p-DockPanel-overlay {\n  background: #2196F3;\n  opacity: 0.8;\n  border: 2px solid #2196F3;\n\n}\n", ""]);
+exports.push([module.i, "/*-----------------------------------------------------------------------------\n| Copyright (c) 2014-2017, PhosphorJS Contributors\n|\n| Distributed under the terms of the BSD 3-Clause License.\n|\n| The full license is in the file LICENSE, distributed with this software.\n|----------------------------------------------------------------------------*/\n\n\n.p-DockPanel {\n  padding: 5px;\n}\n\n.p-DockPanel-overlay {\n  background: #2196F3;\n  opacity: 0.8;\n  border: 2px solid #2196F3;\n\n}\n\n.p-DockPanel-overlay[data-direction='right']:after {\n  border-color: transparent transparent transparent #2196F3;\n  border-width: 16px;\n  border-style: solid;\n  width: 0px;\n  height: 0px;\n  position: absolute;\n  top: calc(50% - 16px);\n  left: 100%;\n  z-index: 3;\n  content: '';\n}\n\n.p-DockPanel-overlay[data-direction='left']:before {\n  border-color: transparent #2196F3 transparent transparent;\n  border-width: 16px;\n  border-style: solid;\n  width: 0px;\n  height: 0px;\n  position: absolute;\n  top: calc(50% - 16px);\n  left: -33px;\n  z-index: 3;\n  content: '';\n}\n\n.p-DockPanel-overlay[data-direction='up']:after {\n  border-color: transparent transparent #2196F3 transparent;\n  border-width: 16px;\n  border-style: solid;\n  width: 0px;\n  height: 0px;\n  position: absolute;\n  left: calc(50% - 16px);\n  top: -33px;\n  z-index: 3;\n  content: '';\n}\n\n.p-DockPanel-overlay[data-direction='down']:after {\n  border-color: #2196F3 transparent transparent transparent;\n  border-width: 16px;\n  border-style: solid;\n  width: 0px;\n  height: 0px;\n  position: absolute;\n  top: 100%;\n  left: calc(50% - 16px);\n  z-index: 3;\n  content: '';\n}\n", ""]);
 
 // exports
 
