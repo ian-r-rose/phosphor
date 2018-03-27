@@ -754,6 +754,7 @@ class DockPanel extends Widget {
     let rect = this.node.getBoundingClientRect();
     let spacing = (this.layout as DockLayout).spacing;
     let extra = 6;
+    let direction: DockPanel.IOverlayDirection = 'none';
 
     switch (this._overlayStyle) {
     case 'line':
@@ -770,30 +771,35 @@ class DockPanel extends Widget {
         left = 0;
         right = 0;
         bottom = rect.height - 2 * extra;
+        direction = 'down';
         break;
       case 'root-left':
         top = 0;
         left = 0;
         right = rect.width - 2 * extra;
         bottom = 0;
+        direction = 'right';
         break;
       case 'root-right':
         top = 0;
         left = rect.width - 2 * extra;
         right = 0;
         bottom = 0;
+        direction = 'left';
         break;
       case 'root-bottom':
         top = rect.height - 2 * extra;
         left = 0;
         right = 0;
         bottom = 0;
+        direction = 'up';
         break;
       case 'widget-tab':
         top = target!.top;
         left = target!.left;
         right = target!.right;
         bottom = target!.bottom + target!.height - 28;
+        direction = 'none';
         break;
       case 'widget-all':
         if (!this._allowTabTarget) {
@@ -807,30 +813,35 @@ class DockPanel extends Widget {
           right = target!.right;
           bottom = target!.bottom + target!.height - 28;
         }
+        direction = 'none';
         break;
       case 'widget-top':
         top = target!.top - spacing - extra;
         left = target!.left;
         right = target!.right;
         bottom = target!.bottom + target!.height - extra;
+        direction = 'down';
         break;
       case 'widget-left':
         top = target!.top;
         left = target!.left - spacing - extra;
         right = target!.right + target!.width - extra;
         bottom = target!.bottom;
+        direction = 'right';
         break;
       case 'widget-right':
         top = target!.top;
         left = target!.left + target!.width - extra;
         right = target!.right - spacing - extra;
         bottom = target!.bottom;
+        direction = 'left';
         break;
       case 'widget-bottom':
         top = target!.top + target!.height - extra;
         left = target!.left;
         right = target!.right;
         bottom = target!.bottom - spacing - extra;
+        direction = 'up';
         break;
       default:
         throw 'unreachable';
@@ -912,7 +923,7 @@ class DockPanel extends Widget {
     }
 
     // Show the overlay with the computed geometry.
-    this.overlay.show({ top, left, right, bottom });
+    this.overlay.show({ top, left, right, bottom }, direction);
     // Finally, return the computed drop zone.
     return zone;
   }
@@ -1173,6 +1184,11 @@ namespace DockPanel {
   }
 
   /**
+   * An interface for adding directionality to the overlay.
+   */
+  export type IOverlayDirection = 'left' | 'right' | 'up' | 'down' | 'none';
+
+  /**
    * An object which manages the overlay node for a dock panel.
    */
   export
@@ -1194,7 +1210,7 @@ namespace DockPanel {
      * This is called on every mouse move event during a drag in order
      * to update the position of the overlay. It should be efficient.
      */
-    show(geo: IOverlayGeometry): void;
+    show(geo: IOverlayGeometry, direction: IOverlayDirection): void;
 
     /**
      * Hide the overlay node.
@@ -1235,13 +1251,15 @@ namespace DockPanel {
      *
      * @param geo - The desired geometry for the overlay.
      */
-    show(geo: IOverlayGeometry): void {
+    show(geo: IOverlayGeometry, direction: IOverlayDirection = 'none'): void {
       // Update the position of the overlay.
       let style = this.node.style;
       style.top = `${geo.top}px`;
       style.left = `${geo.left}px`;
       style.right = `${geo.right}px`;
       style.bottom = `${geo.bottom}px`;
+
+      this.node.dataset['direction'] = direction;
 
       // Clear any pending hide timer.
       clearTimeout(this._timer);
@@ -1276,6 +1294,7 @@ namespace DockPanel {
         clearTimeout(this._timer);
         this._timer = -1;
         this._hidden = true;
+        this.node.dataset['direction'] = 'none';
         this.node.classList.add('p-mod-hidden');
         return;
       }
@@ -1289,6 +1308,7 @@ namespace DockPanel {
       this._timer = setTimeout(() => {
         this._timer = -1;
         this._hidden = true;
+        this.node.dataset['direction'] = 'none';
         this.node.classList.add('p-mod-hidden');
       }, delay);
     }
