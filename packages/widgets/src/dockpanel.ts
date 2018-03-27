@@ -809,31 +809,31 @@ class DockPanel extends Widget {
         direction = 'none';
         break;
       case 'widget-top':
-        top = target!.top - spacing - extra;
+        top = target!.top - spacing;
         left = target!.left;
         right = target!.right;
-        bottom = target!.bottom + target!.height - extra;
+        bottom = target!.bottom + target!.height - 2 * extra;
         direction = 'down';
         break;
       case 'widget-left':
         top = target!.top;
-        left = target!.left - spacing - extra;
-        right = target!.right + target!.width - extra;
+        left = target!.left - spacing;
+        right = target!.right + target!.width - 2 * extra;
         bottom = target!.bottom;
         direction = 'right';
         break;
       case 'widget-right':
         top = target!.top;
-        left = target!.left + target!.width - extra;
-        right = target!.right - spacing - extra;
+        left = target!.left + target!.width - 2 * extra;
+        right = target!.right - spacing;
         bottom = target!.bottom;
         direction = 'left';
         break;
       case 'widget-bottom':
-        top = target!.top + target!.height - extra;
+        top = target!.top + target!.height - 2 * extra;
         left = target!.left;
         right = target!.right;
-        bottom = target!.bottom - spacing - extra;
+        bottom = target!.bottom - spacing;
         direction = 'up';
         break;
       default:
