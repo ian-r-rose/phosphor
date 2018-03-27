@@ -43798,10 +43798,11 @@ var DockPanel = (function (_super) {
         var bottom = 0;
         var box = domutils_1.ElementExt.boxSizing(this.node); // TODO cache this?
         var rect = this.node.getBoundingClientRect();
+        var spacing = this.layout.spacing;
+        var extra = 6;
         switch (this._overlayStyle) {
             case 'line':
                 // Compute the overlay geometry based on the dock zone.
-                // console.log(target!.top, target!.right, target!.bottom, target!.left, target!.height, target!.width);
                 switch (zone) {
                     case 'root-all':
                         top = box.paddingTop;
@@ -43813,22 +43814,22 @@ var DockPanel = (function (_super) {
                         top = 0;
                         left = 0;
                         right = 0;
-                        bottom = rect.height - 10;
+                        bottom = rect.height - 2 * extra;
                         break;
                     case 'root-left':
                         top = 0;
                         left = 0;
-                        right = rect.width - 10;
+                        right = rect.width - 2 * extra;
                         bottom = 0;
                         break;
                     case 'root-right':
                         top = 0;
-                        left = rect.width - 10;
+                        left = rect.width - 2 * extra;
                         right = 0;
                         bottom = 0;
                         break;
                     case 'root-bottom':
-                        top = rect.height - 10;
+                        top = rect.height - 2 * extra;
                         left = 0;
                         right = 0;
                         bottom = 0;
@@ -43846,28 +43847,28 @@ var DockPanel = (function (_super) {
                         bottom = target.bottom;
                         break;
                     case 'widget-top':
-                        top = target.top - 5;
+                        top = target.top - spacing - extra;
                         left = target.left;
                         right = target.right;
-                        bottom = target.bottom + target.height;
+                        bottom = target.bottom + target.height - extra;
                         break;
                     case 'widget-left':
                         top = target.top;
-                        left = target.left - 5;
-                        right = target.right + target.width;
+                        left = target.left - spacing - extra;
+                        right = target.right + target.width - extra;
                         bottom = target.bottom;
                         break;
                     case 'widget-right':
                         top = target.top;
-                        left = target.left + target.width;
-                        right = target.right - 5;
+                        left = target.left + target.width - extra;
+                        right = target.right - spacing - extra;
                         bottom = target.bottom;
                         break;
                     case 'widget-bottom':
-                        top = target.top + target.height;
+                        top = target.top + target.height - extra;
                         left = target.left;
                         right = target.right;
-                        bottom = target.bottom - 5;
+                        bottom = target.bottom - spacing - extra;
                         break;
                     default:
                         throw 'unreachable';
@@ -43875,7 +43876,6 @@ var DockPanel = (function (_super) {
                 break;
             case 'area':
                 // Compute the overlay geometry based on the dock zone.
-                // console.log(target!.top, target!.right, target!.bottom, target!.left, target!.height, target!.width);
                 switch (zone) {
                     case 'root-all':
                         top = box.paddingTop;
@@ -43929,7 +43929,7 @@ var DockPanel = (function (_super) {
                         top = target.top;
                         left = target.left;
                         right = target.right + target.width / 2;
-                        bottom = target.bottom;
+                        bottom = target.top + target.height;
                         break;
                     case 'widget-right':
                         top = target.top;
@@ -43949,8 +43949,9 @@ var DockPanel = (function (_super) {
                 break;
         }
         // Show the overlay with the computed geometry.
+        console.log(target);
+        console.log({ top: top, left: left, right: right, bottom: bottom });
         this.overlay.show({ top: top, left: left, right: right, bottom: bottom });
-        console.log(zone, { top: top, left: left, right: right, bottom: bottom });
         // Finally, return the computed drop zone.
         return zone;
     };
@@ -44224,7 +44225,6 @@ var Private;
      * Find the drop target at the given client position.
      */
     function findDropTarget(panel, clientX, clientY, allowCenterTarget, allowTabTarget) {
-        console.log(allowCenterTarget, allowTabTarget);
         // Bail if the mouse is not over the dock panel.
         if (!domutils_1.ElementExt.hitTest(panel.node, clientX, clientY)) {
             return { zone: 'invalid', target: null };
@@ -48026,7 +48026,7 @@ exports = module.exports = __webpack_require__(5)();
 
 
 // module
-exports.push([module.i, "/*-----------------------------------------------------------------------------\n| Copyright (c) 2014-2017, PhosphorJS Contributors\n|\n| Distributed under the terms of the BSD 3-Clause License.\n|\n| The full license is in the file LICENSE, distributed with this software.\n|----------------------------------------------------------------------------*/\n\n\n.content {\n  min-width: 50px;\n  min-height: 50px;\n  display: flex;\n  flex-direction: column;\n  padding: 8px;\n  border: 1px solid #C0C0C0;\n  border-top: none;\n  background: white;\n  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);\n}\n\n\n.content > div {\n  flex: 1 1 auto;\n  border: 1px solid #505050;\n  overflow: auto;\n}\n\n\n.content  input {\n  margin: 8px;\n}\n\n\n.red > div {\n  background: #F44336;\n}\n\n\n.yellow > div {\n  background: #FFEB3B;\n}\n\n\n.green > div {\n  background: #4CAF50;\n}\n\n\n.blue > div {\n  background: #00BCD4;\n}\n\n.purple > div {\n  background: #9932CC;\n}\n", ""]);
+exports.push([module.i, "/*-----------------------------------------------------------------------------\n| Copyright (c) 2014-2017, PhosphorJS Contributors\n|\n| Distributed under the terms of the BSD 3-Clause License.\n|\n| The full license is in the file LICENSE, distributed with this software.\n|----------------------------------------------------------------------------*/\n\n\n.content {\n  min-width: 50px;\n  min-height: 50px;\n  display: flex;\n  flex-direction: column;\n  padding: 8px;\n  border: 1px solid #C0C0C0;\n  border-top: none;\n  background: white;\n  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);\n}\n\n\n.content > div {\n  flex: 1 1 auto;\n  border: 1px solid #505050;\n  overflow: auto;\n}\n\n\n.content  input {\n  margin: 8px;\n}\n\n\n.red > div {\n  background: #F2D7D5;\n}\n\n\n.yellow > div {\n  background: #FCF3CF;\n}\n\n\n.green > div {\n  background: #D4EFDF;\n}\n\n\n.blue > div {\n  background: #D4E6F1;\n}\n\n.purple > div {\n  background: #E8DAEF;\n}\n", ""]);
 
 // exports
 
