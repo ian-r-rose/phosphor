@@ -7,6 +7,10 @@
 |----------------------------------------------------------------------------*/
 
 
+.p-DockPanel {
+  padding: 5px;
+}
+
 .p-DockPanel-overlay {
   background: #2196F3;
   opacity: 0.8;
