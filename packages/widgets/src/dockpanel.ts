@@ -902,7 +902,7 @@ class DockPanel extends Widget {
         top = target!.top;
         left = target!.left;
         right = target!.right + target!.width / 2;
-        bottom = target!.top + target!.height;
+        bottom = target!.bottom;
         break;
       case 'widget-right':
         top = target!.top;
