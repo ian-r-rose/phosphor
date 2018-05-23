@@ -57,42 +57,24 @@ function getQueryVariable(variable) {
 function createLayoutOne(dock) {
     var red = new ContentWidget('Red');
     var green = new ContentWidget('Green');
-    var blue = new ContentWidget('Blue');
-    var purple = new ContentWidget('Purple');
     dock.addWidget(red);
     dock.addWidget(green, { mode: 'tab-after', ref: red });
-    dock.addWidget(blue, { mode: 'tab-after', ref: green });
-    dock.addWidget(purple, { mode: 'tab-after', ref: blue });
 }
 function createLayoutTwo(dock) {
     var red = new ContentWidget('Red');
     var green = new ContentWidget('Green');
     var blue = new ContentWidget('Blue');
-    var purple = new ContentWidget('Purple');
+    dock.addWidget(red);
+    dock.addWidget(green, { mode: 'tab-after', ref: red });
+    dock.addWidget(blue, { mode: 'split-right', ref: red });
+}
+function createLayoutFive(dock) {
+    var red = new ContentWidget('Red');
+    var green = new ContentWidget('Green');
+    var blue = new ContentWidget('Blue');
     dock.addWidget(red);
     dock.addWidget(green, { mode: 'tab-after', ref: red });
     dock.addWidget(blue, { mode: 'split-bottom', ref: red });
-    dock.addWidget(purple, { mode: 'tab-after', ref: blue });
-}
-function createLayoutThree(dock) {
-    var red = new ContentWidget('Red');
-    var green = new ContentWidget('Green');
-    var blue = new ContentWidget('Blue');
-    var purple = new ContentWidget('Purple');
-    dock.addWidget(red);
-    dock.addWidget(green, { mode: 'tab-after', ref: red });
-    dock.addWidget(purple, { mode: 'split-bottom', ref: red });
-    dock.addWidget(blue, { mode: 'split-right', ref: red });
-}
-function createLayoutFour(dock) {
-    var red = new ContentWidget('Red');
-    var green = new ContentWidget('Green');
-    var blue = new ContentWidget('Blue');
-    var purple = new ContentWidget('Purple');
-    dock.addWidget(red);
-    dock.addWidget(green, { mode: 'split-bottom', ref: red });
-    dock.addWidget(purple, { mode: 'split-bottom', ref: green });
-    dock.addWidget(blue, { mode: 'split-right', ref: green });
 }
 function main() {
     var spacing = parseInt(getQueryVariable('spacing') || '5');
@@ -115,10 +97,13 @@ function main() {
             createLayoutTwo(dock);
             break;
         case '3':
-            createLayoutThree(dock);
+            createLayoutTwo(dock);
             break;
         case '4':
-            createLayoutFour(dock);
+            createLayoutTwo(dock);
+            break;
+        case '5':
+            createLayoutFive(dock);
             break;
         default:
             createLayoutOne(dock);
