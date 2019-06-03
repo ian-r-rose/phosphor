@@ -4,6 +4,7 @@
   "version": "0.1.13",
   "dependencies": {
     "@phosphor/datastore": "^0.7.0",
+    "@phosphor/messaging": "^1.2.2",
     "@phosphor/signaling": "^1.2.2" 
   },
   "devDependencies": {
