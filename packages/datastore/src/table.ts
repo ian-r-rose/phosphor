@@ -6,7 +6,7 @@
 | The full license is in the file LICENSE, distributed with this software.
 |----------------------------------------------------------------------------*/
 import {
-  IIterable, IIterator, StringExt, IterableOrArrayLike
+  IIterable, IIterator, StringExt
 } from '@phosphor/algorithm';
 
 import {
@@ -44,21 +44,6 @@ class Table<S extends Schema> implements IIterable<Record<S>> {
    */
   static create<U extends Schema>(schema: U, context: Datastore.Context): Table<U> {
     return new Table<U>(schema, context);
-  }
-
-  /**
-   * @internal
-   *
-   * Create a new datastore table with a previously exported state.
-   *
-   * @param schema - The schema for the table.
-   *
-   * @param context - The datastore context.
-   *
-   * @returns A new datastore table.
-   */
-  static recreate<U extends Schema>(schema: U, context: Datastore.Context, records: IterableOrArrayLike<Record<U>>): Table<U> {
-    return new Table<U>(schema, context, records);
   }
 
   /**
@@ -213,12 +198,9 @@ class Table<S extends Schema> implements IIterable<Record<S>> {
    *
    * @param context - The datastore context.
    */
-  private constructor(schema: S, context: Datastore.Context, records?: IterableOrArrayLike<Record<S>>) {
+  private constructor(schema: S, context: Datastore.Context) {
     this.schema = schema;
     this._context = context;
-    if (records) {
-      this._records.assign(records);
-    }
   }
 
   private _context: Datastore.Context;
