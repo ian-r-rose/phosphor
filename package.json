@@ -1,6 +1,8 @@
 {
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "websocket": "^1.0.28"
+  },
   "devDependencies": {
     "lerna": "^2.11.0"
   },
