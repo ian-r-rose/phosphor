@@ -1,1 +1,1 @@
-web: npm install && cd examples/example-datastore && npm run build && node build/server.js
+web: cd examples/example-datastore && node build/server.js
