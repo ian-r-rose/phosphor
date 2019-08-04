@@ -55,7 +55,7 @@ let pageServer = http.createServer((request, response) => {
 /**
  * Start the page server.
  */
-pageServer.listen(8000, () => {
+pageServer.listen(process.env.PORT || 8000, () => {
   console.info(new Date() + " Page server is listening on port 8000");
 });
 
